@@ -23,11 +23,11 @@
 
 ## 🌐 Live Website
 
-🔗 **Live Site:** [HavenSpace](https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-jayedalnahian)
+🔗 **Live Site:** [HavenSpace](https://explore-email-password-a-801d9.web.app/)
 
-📁 **Client Repository:** [GitHub - Client](https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-jayedalnahian)
+📁 **Client Repository:** [GitHub - Client](https://github.com/jayedalnahian/HavenSpace-client)
 
-📁 **Server Repository:** [GitHub - Server](https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-jayedalnahian)
+📁 **Server Repository:** [GitHub - Server](https://github.com/jayedalnahian/HavenSpace-server)
 
 ---
 
