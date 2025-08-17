@@ -11,8 +11,19 @@ app.use(express.json());
 app.use(cors());
 
 
-const serviceAccountPath = path.resolve(process.env.FB_SERVICE_KEY_PATH);
-const serviceAccount = require(serviceAccountPath);
+
+
+const serviceAccount = JSON.parse(
+  Buffer.from(
+    process.env.FIREBASE_SERVICE_ACCOUNT_BASE64.replace(/\n/g, ""),
+    "base64"
+  ).toString("utf8")
+);
+
+
+
+console.log(serviceAccount);
+
 
 
 
@@ -34,21 +45,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-const verifyJWT = async (req, res, next) => {
-  const token = req?.headers?.authorization?.split(" ")[1];
-  if (!token) {
-    return res.status(401).send({ message: "Unauthorized access." });
-  }
 
-  try {
-    const decoded = await admin.auth().verifyIdToken(token);
-    req.tokenEmail = decoded.email;
-
-    next();
-  } catch (error) {
-    return res.status(401).send({ message: "Unauthorized access." });
-  }
-};
 
 const verifyFirebaseToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -75,6 +72,7 @@ async function run() {
     const userCollection = havenSpaceDB.collection("user");
     const propertiesCollection = havenSpaceDB.collection("properties");
     const reviewsCollection = havenSpaceDB.collection("reviews");
+    const subscribersCollection =havenSpaceDB.collection("subscribers")
 
     app.post("/auth/register", async (req, res) => {
       const userData = req.body;
@@ -104,6 +102,12 @@ async function run() {
         res.status(500).json({ message: "Server error" });
       }
     });
+
+    app.post("/api/subscribe", async (req, res) => {
+      const subscriber = req.body;
+      const result = await subscribersCollection.insertOne(subscriber);
+      res.send(result)
+    })
 
     app.post("/api/properties", async (req, res) => {
       const property = req.body;
